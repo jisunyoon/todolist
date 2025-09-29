@@ -12,6 +12,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let todos = [];
     let currentFilter = "all";
+
+    
+    // ===============================
+    // [기능 4] localStorage에서 초기 데이터 불러오기 
+    // ===============================
+
+    const saved = localStorage.getItem('todos');
+    if(saved){
+      todos = JSON.parse(saved); // 문자열 --> 배열 복원
+    }
+
+    // ===============================
+    // [기능 4] todos 배열을 localStorage에 다시 저장
+    // ===============================
+
+    function saveTodo(){
+      localStorage.setItem('todos', JSON.stringify(todos)); // 배열 -> 문자열 저장
+    }
   
     // ===============================
     // [기능 1] 할 일 추가
@@ -31,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
       todos.push(newTodo);
       todoInput.value = "";
 
+      saveTodo();
       renderTodos();
       updateState();
     })
@@ -59,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         todoCheckbox.addEventListener('click', () => {
           todo.completed = todoCheckbox.checked;
+          saveTodo();
           updateState();
           renderTodos();
         })
@@ -76,6 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // 삭제 버튼 클릭 시 
         todoDelete.addEventListener('click', () => {
           todos = todos.filter(item => item.id !== todo.id);
+          saveTodo();
           renderTodos();
           updateState();
         })
@@ -102,11 +123,11 @@ document.addEventListener("DOMContentLoaded", () => {
       completedTodos.innerText = completed;
       pendingTodos.innerText = pending;
     }
-  });
 
-    // ===============================
-    // [기능 4] todos 데이터 유지 
-    // ===============================
+    renderTodos();
+    updateState();
+  });
+  
 
     // ===============================
     // [기능 5] 필터 버튼 클릭 시 todos 상태에 따라 렌더링
