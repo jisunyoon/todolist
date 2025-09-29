@@ -8,12 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const completedTodos = document.getElementById('completedTodos');
     const pendingTodos = document.getElementById('pendingTodos');
 
-    const filterBtns = document.querySelectorAll('.filter-btn');
+    const filterBtns = document.querySelectorAll(".filter-btn");
 
     let todos = [];
     let currentFilter = "all";
 
-    
     // ===============================
     // [기능 4] localStorage에서 초기 데이터 불러오기 
     // ===============================
@@ -61,13 +60,22 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderTodos(){
       todoList.innerHTML = "";
 
-      if(todos.length === 0){
+      let listToRender = [];
+      if (currentFilter === "all") {
+        listToRender = todos;
+        } else if (currentFilter === "pending") {
+          listToRender = todos.filter(todo => !todo.completed); 
+        } else if (currentFilter === "completed") {
+          listToRender = todos.filter(todo => todo.completed); 
+      }
+
+      if(listToRender.length === 0){
         emptyState.style.display = "block";
       } else{
         emptyState.style.display = "none";
       }
 
-      todos.forEach(todo => {
+      listToRender.forEach(todo => {
         const todoItem = document.createElement("div");
         todoItem.className = "flex justify-between items-center p-4";
 
@@ -124,12 +132,38 @@ document.addEventListener("DOMContentLoaded", () => {
       pendingTodos.innerText = pending;
     }
 
-    renderTodos();
-    updateState();
-  });
-  
-
     // ===============================
     // [기능 5] 필터 버튼 클릭 시 todos 상태에 따라 렌더링
     // ===============================
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => {
+          b.classList.remove('bg-indigo-600', 'text-white');
+          b.classList.add('bg-gray-200', 'text-gray-700');
+        })
+        btn.classList.add('bg-indigo-600', 'text-white');
+        btn.classList.remove('bg-gray-200', 'text-gray-700');
+  
+        if(btn.dataset.filter === 'all') {
+          currentFilter = 'all';
+        } 
+        if(btn.dataset.filter === 'pending') {
+          currentFilter = 'pending';
+        } 
+        if(btn.dataset.filter === 'completed') {
+          currentFilter = 'completed';
+        } 
+  
+        renderTodos();
+      })
+
+    })
+
+    renderTodos();
+    updateState();
+});
+  
+
+
   

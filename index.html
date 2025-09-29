@@ -55,19 +55,19 @@
             <!-- 필터 버튼 -->
             <div class="flex justify-center gap-2 mb-6">
                 <button 
-                    id="filterAll" 
-                    class="filter-btn active bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200"
+                    data-filter="all" 
+                    class="filter-btn bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200"
                 >
                     전체
                 </button>
                 <button 
-                    id="filterPending" 
+                    data-filter="pending" 
                     class="filter-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200"
                 >
                     진행중
                 </button>
                 <button 
-                    id="filterCompleted" 
+                    data-filter="completed" 
                     class="filter-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200"
                 >
                     완료
